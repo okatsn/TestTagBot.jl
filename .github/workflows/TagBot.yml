@@ -4,8 +4,8 @@ name: TagBot
 
 on:
   push:
-    tags:
-      - *-DEV
+    tags-ignore:
+      - '*-DEV'
   issue_comment:
     types:
       - created
