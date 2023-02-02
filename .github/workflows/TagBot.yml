@@ -3,6 +3,9 @@
 name: TagBot
 
 on:
+  push:
+    tags:
+      - *-DEV
   issue_comment:
     types:
       - created

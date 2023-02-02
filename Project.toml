@@ -1,9 +1,10 @@
 name = "TestTagBot"
 uuid = "ade42d9a-f0a7-4d7c-9f72-e1874134871e"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.2.1"
+version = "0.2.2"
 
 [deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 OkPkgTemplates = "38290ba8-8fbe-457b-bf75-0e4980da3840"
 
 [compat]
