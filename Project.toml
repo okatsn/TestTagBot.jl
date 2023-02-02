@@ -1,7 +1,7 @@
 name = "TestTagBot"
 uuid = "ade42d9a-f0a7-4d7c-9f72-e1874134871e"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.2.4"
+version = "0.2.5"
 
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
