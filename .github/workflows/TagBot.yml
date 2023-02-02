@@ -3,10 +3,8 @@
 name: TagBot
 
 on:
-  push:
-    tags-ignore:
-      - 'v*-DEV'
-      # tag is in format v*.*.* (e.g. v1.2.3)
+  repository_dispatch:
+    types: [trigger-tagbot]
   issue_comment:
     types:
       - created
