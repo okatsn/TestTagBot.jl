@@ -6,6 +6,11 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types: [trigger-tagbot]
+
+permissions:
+  contents: write
+  pull-requests: write
+# CompatHelper requires permissions. See https://github.com/JuliaRegistries/CompatHelper.jl#github
 jobs:
   CompatHelper:
     runs-on: ubuntu-latest
