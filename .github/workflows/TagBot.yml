@@ -3,8 +3,9 @@
 name: TagBot
 
 on:
-  repository_dispatch:
-    types: [trigger-tagbot]
+  push:
+    tags: 
+      - *.*
 jobs:
   TagBot:
     # if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
