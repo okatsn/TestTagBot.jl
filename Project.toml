@@ -1,7 +1,7 @@
 name = "TestTagBot"
 uuid = "ade42d9a-f0a7-4d7c-9f72-e1874134871e"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.1.1-DEV"
+version = "0.2.1"
 
 [deps]
 OkPkgTemplates = "38290ba8-8fbe-457b-bf75-0e4980da3840"
