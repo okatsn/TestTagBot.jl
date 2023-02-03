@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'VersionTemp.toml'
+      - '.github/workflows/PkgDev.jl'
   workflow_dispatch:
 
 
@@ -28,8 +29,6 @@ jobs:
         with:
           version: 1.6.7
       - uses: actions/checkout@v3 # see https://github.com/actions/checkout
-        with:
-          path: TEMP
       - run: |
           git config user.email "action@github.com"
           git config user.name "github-actions"
