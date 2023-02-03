@@ -29,6 +29,7 @@ jobs:
         with:
           version: 1.6.7
       - run: |
+          git init
           git config user.email "action@github.com"
           git config user.name "github-actions"
           julia --project=@. -e '
