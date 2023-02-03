@@ -1,4 +1,4 @@
-name: Register Package to OkRegistry
+name: TestPkgDev
 on:
   push:
     paths:
@@ -31,8 +31,8 @@ jobs:
         with:
           path: TEMP
       - run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "github-actions"
+          git config user.email "action@github.com"
+          git config user.name "github-actions"
           julia --project=@. -e '
             using Pkg;
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
