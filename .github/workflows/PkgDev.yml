@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - 'VersionTemp.toml'
-      - '.github/workflows/PkgDev.jl'
+      - '.github/workflows/PkgDev.yml'
   workflow_dispatch:
 
 
@@ -35,6 +35,7 @@ jobs:
           julia --project=@. -e '
             using Pkg;
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
+            Pkg.Registry.update();
             Pkg.instantiate();
             Pkg.dev("TestTagBot");
             using PkgDev;
