@@ -1,11 +1,12 @@
 name = "TestTagBot"
 uuid = "ade42d9a-f0a7-4d7c-9f72-e1874134871e"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.2.10"
+version = "0.2.17"
 
 [deps]
 CompatHelper = "aa819f21-2bde-4658-8897-bab36330d9b7"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
 OkPkgTemplates = "38290ba8-8fbe-457b-bf75-0e4980da3840"
 PkgDev = "149e707d-584d-56d3-88ec-740c18e106ff"
 
@@ -13,7 +14,9 @@ PkgDev = "149e707d-584d-56d3-88ec-740c18e106ff"
 julia = "1.6"
 
 [extras]
+CompatHelperLocal = "5224ae11-6099-4aaa-941d-3aab004bd678"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Test", "Documenter", "CompatHelperLocal"]
