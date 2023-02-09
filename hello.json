@@ -1,0 +1,7 @@
+{"commit_msg": "# Will disable content: write TagBot still work? \n
+  \n
+  so far it works\n
+  - test item 1\n
+  - test item 2 and `code`\n
+  [how about hyperlink?](https://stackoverflow.com/questions/55463849/how-can-i-escape-double-curly-braces-in-jinja2)\n
+  > comment"}
