@@ -31,7 +31,7 @@ jobs:
           ssh: ${{ secrets.DOCUMENTER_KEY }}
           changelog: |
             ## {{ package }} {{ version }}
-            **Commit**
+            **Commit 0.2.26**
             ${{ github.event.client_payload.commit_msg }}
             {% if commits %}
             **Commits**
