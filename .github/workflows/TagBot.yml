@@ -17,17 +17,27 @@ permissions:
 
 jobs:
   TagBot:
-    # if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
+    if: github.event_name == 'repository_dispatch' # if true, there is github.event.client_payload
     runs-on: ubuntu-latest
     steps:
+      # - name: set env variables for changelog
+      #   run: echo "COMMIT_MSG=''"
+      # - name: Redefine variable under condition
+      #   run: echo "COMMIT_MSG=${{github.event.client_payload.commit_msg}}"
+      #   if: github.event_name == 'repository_dispatch'
       - uses: JuliaRegistries/TagBot@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ssh: ${{ secrets.DOCUMENTER_KEY }}
           changelog: |
             ## {{ package }} {{ version }}
-            {% if github.event.client_payload %}
-            {{ github.event.client_payload.commit_msg }}
+            **Commit**
+            ${{ github.event.client_payload.commit_msg }}
+            {% if commits %}
+            **Commits**
+            {% for commit in commits %}
+            - {{ commit.message }} (by {{ commit.author }})
+            {% endfor %}
             {% endif %}
             {% if previous_release %}
             [Diff since {{ previous_release }}]({{ compare_url }})
