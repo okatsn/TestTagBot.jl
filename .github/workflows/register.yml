@@ -66,5 +66,7 @@ jobs:
           repository: ${{ github.repository }}
           event-type: trigger-tagbot
           token: ${{ secrets.GITHUB_TOKEN }}
+          client-payload: '{"ref": "${{ github.ref }}", "custom": "${{ github.event.commits[0].message }}"}'
           # client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}' # `client-payload:` passes data from Workflow 1 to Workflow 2
           # token: ${{ secrets.REPO_GHA_PAT }} #default is GITHUB_TOKEN
+          # Noted that commit message can be obtained from both ${{ github.event.commits[0].message }} and ${{ github.event.head_commit.message }}, but the latter one could be empty.
