@@ -12,6 +12,7 @@ PkgDev = "149e707d-584d-56d3-88ec-740c18e106ff"
 
 [compat]
 julia = "1.6"
+PkgDev = "1.7.2"
 
 [extras]
 CompatHelperLocal = "5224ae11-6099-4aaa-941d-3aab004bd678"
