@@ -60,14 +60,25 @@ jobs:
     # 2. `git config` is required, and has to be done in repo OkRegistry (cd OkRegistry must precede)
     # 3. Personal registry is add per julia install; that is, OkRegistry should be added before `Pkg.instantiate()`
       - name: Trigger next workflow
-        if: success()
-        uses: peter-evans/repository-dispatch@v2
+        if: success() && github.event_name == 'push' # KEYNOTE: must add this condition if you use `github.event.commits` in the followings; since `github.event.commits` is only available in [push webhook payload](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#push).
+        uses: peter-evans/repository-dispatch@v2 # See https://github.com/peter-evans/repository-dispatch
         with:
           repository: ${{ github.repository }}
           event-type: trigger-tagbot
-          token: ${{ secrets.GITHUB_TOKEN }}
-          # client-payload: '{"ref": "${{ github.ref }}", "custom": "${{ github.event.commits[0].message }}"}'
-          # client-payload: '{"ref": "${{ github.ref }}", "custom": "${{ github.event.commits[0].message }}"}'
-          # client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}' # `client-payload:` passes data from Workflow 1 to Workflow 2
-          # token: ${{ secrets.REPO_GHA_PAT }} #default is GITHUB_TOKEN
-          # Noted that commit message can be obtained from both ${{ github.event.commits[0].message }} and ${{ github.event.head_commit.message }}, but the latter one could be empty.
+          token: ${{ secrets.GITHUB_TOKEN }} # default is GITHUB_TOKEN
+          client-payload: '{"commit_msg": "${{ github.event.commits[0].message }}"}'
+##  `with` Options for `name: Trigger next workflow`:
+### - `client-payload:` passes data from Workflow 1 to Workflow 2
+###   - Example:
+#       ```
+#       with:
+#         client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
+#       ```
+#     - Commit message can be obtained from both
+#       - `${{ github.event.commits[0].message }}` and
+#       - `${{ github.event.head_commit.message }}`
+#       - (Not sure) the latter one could be empty
+#       - (Not sure) error with the latter one could result from permission: content: false
+#       - It is possible to [Iterating over github.event.commits](https://github.com/orgs/community/discussions/35120) or [use join function to concatenate commits](https://github.com/orgs/community/discussions/25164).
+#       - Alternative way to [Get a commit](https://docs.github.com/en/rest/git/commits?apiVersion=2022-11-28#get-a-commit) using `curl`.
+#     - Also see [github context](https://docs.github.com/en/actions/learn-github-actions/contexts#github-context) for what others are available.

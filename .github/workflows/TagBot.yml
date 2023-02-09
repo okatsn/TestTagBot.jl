@@ -10,9 +10,11 @@ on:
       - created
   workflow_dispatch:
 
-permissions:
-  contents: write
-  
+## Allow permissions may fix some error; also see register.yml
+## - see [Tagbot-setup](https://github.com/JuliaRegistries/TagBot#setup)
+# permissions:
+#   contents: write
+
 jobs:
   TagBot:
     # if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
@@ -22,4 +24,28 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ssh: ${{ secrets.DOCUMENTER_KEY }}
+          changelog: |
+            ## {{ package }} {{ version }}
+            {% if client_payload %}
+            {{ client_payload.commit_msg }}
+            {% endif %}
+            {% if previous_release %}
+            [Diff since {{ previous_release }}]({{ compare_url }})
+            {% endif %}
+            {% if custom %}
+            {{ custom }}
+            {% endif %}
+            {% if issues %}
+            **Closed issues:**
+            {% for issue in issues %}
+            - {{ issue.title }} (#{{ issue.number }})
+            {% endfor %}
+            {% endif %}
+            {% if pulls %}
+            **Merged pull requests:**
+            {% for pull in pulls %}
+            - {{ pull.title }} (#{{ pull.number }}) (@{{ pull.author.username }})
+            {% endfor %}
+            {% endif %}
+
           registry: okatsn/OkRegistry
