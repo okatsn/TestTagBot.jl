@@ -71,3 +71,4 @@ jobs:
           # Delete this client-payload line and `client_payload` lines in `TagBot.yml` if you don't want commit message appears.
           # Push everything else before you push `Project.toml` with version number raised and commit it solely with commit message that will also appear as part of the release notes.
           # Also see OkPkgTemplates.PLUGIN_REGISTER() for explanation.
+          # Noted that multiline string (for commit message) is not acceptable for json. See PLUGIN_REGISTER for more info.
