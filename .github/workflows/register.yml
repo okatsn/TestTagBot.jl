@@ -61,8 +61,7 @@ jobs:
               write(io, cglog);
             end;
             '
-          value=`cat temptemp.txt`
-          echo $value >> $GITHUB_OUTPUT
+          cat temptemp.txt >> $GITHUB_OUTPUT
         id: regist
     # Update OkRegistry first.
     # 1. Current path is critical. Please refer to "add_local_pkg_to_registry.jl" in OkRegistry.
