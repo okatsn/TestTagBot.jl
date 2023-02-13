@@ -51,7 +51,7 @@ jobs:
           cd OkRegistry
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
-          julia --project=@. -e '
+          echo text=$(julia --project=@. -e '
             using Pkg;
             Pkg.instantiate();
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
@@ -59,13 +59,8 @@ jobs:
             Pkg.add("OkMD");
             using OkMD;
             cglog = OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false));
-            open("temptemp.txt", "w") do io;
-              write(io, cglog);
-            end;
-            '
-          while read -r line; do 
-            echo "text=$line" >> $GITHUB_OUTPUT
-          done < temptemp.txt
+            print(cglog);
+            ') >> $GITHUB_OUTPUT
         id: regist
     # KEYNOTE:
     # - For GITHUB_OUTPUT: https://stackoverflow.com/questions/59191913/how-do-i-get-the-output-of-a-specific-step-in-github-actions
