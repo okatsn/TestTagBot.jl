@@ -1,12 +1,13 @@
 name = "TestTagBot"
 uuid = "ade42d9a-f0a7-4d7c-9f72-e1874134871e"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.2.36"
+version = "0.2.37"
 
 [deps]
 CompatHelper = "aa819f21-2bde-4658-8897-bab36330d9b7"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
+OkMD = "4acf06e8-6b0e-4a57-aafd-adf19fd274eb"
 OkPkgTemplates = "38290ba8-8fbe-457b-bf75-0e4980da3840"
 PkgDev = "149e707d-584d-56d3-88ec-740c18e106ff"
 

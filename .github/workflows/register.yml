@@ -49,15 +49,20 @@ jobs:
           cd OkRegistry
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
-          echo $(julia --project=@. -e '
+          julia --project=@. -e '
             using Pkg;
             Pkg.instantiate();
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
             include("add_local_pkg_to_registry.jl");
             Pkg.add("OkMD");
             using OkMD;
-            string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false))
-            ') >> $GITHUB_OUTPUT
+            cglog = string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false))
+            open("temptemp.txt", "w") do io
+              write(io, cglog);
+            end
+            '
+          value=`cat temptemp.txt`
+          echo $value >> $GITHUB_OUTPUT
         id: regist
     # Update OkRegistry first.
     # 1. Current path is critical. Please refer to "add_local_pkg_to_registry.jl" in OkRegistry.
