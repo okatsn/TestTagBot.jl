@@ -61,7 +61,9 @@ jobs:
               write(io, cglog);
             end;
             '
-          cat temptemp.txt >> $GITHUB_OUTPUT
+          while read line; do 
+            echo $line >> $GITHUB_OUTPUT
+          done < temptemp.txt
         id: regist
     # Update OkRegistry first.
     # 1. Current path is critical. Please refer to "add_local_pkg_to_registry.jl" in OkRegistry.
@@ -75,7 +77,7 @@ jobs:
           repository: ${{ github.repository }}
           event-type: trigger-tagbot
           token: ${{ secrets.GITHUB_TOKEN }} # default is GITHUB_TOKEN
-          client-payload: '{"commit_msg": steps.regist.outputs }'
+          client-payload: '{"commit_msg": join(steps.regist.outputs.*, "\n") }'
           # Delete this client-payload line and `client_payload` lines in `TagBot.yml` if you don't want commit message appears.
           # Push everything else before you push `Project.toml` with version number raised and commit it solely with commit message that will also appear as part of the release notes.
           # Also see OkPkgTemplates.PLUGIN_REGISTER() for explanation.
