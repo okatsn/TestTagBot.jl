@@ -56,7 +56,7 @@ jobs:
             include("add_local_pkg_to_registry.jl");
             Pkg.add("OkMD");
             using OkMD;
-            string(OkMD.get_changelog("Project.toml", "changelog.toml", 2; with_header=false))
+            string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.toml", 2; with_header=false))
             ') >> $GITHUB_OUTPUT
         id: regist
     # Update OkRegistry first.
