@@ -56,10 +56,10 @@ jobs:
             include("add_local_pkg_to_registry.jl");
             Pkg.add("OkMD");
             using OkMD;
-            cglog = string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false))
-            open("temptemp.txt", "w") do io
+            cglog = string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false));
+            open("temptemp.txt", "w") do io;
               write(io, cglog);
-            end
+            end;
             '
           value=`cat temptemp.txt`
           echo $value >> $GITHUB_OUTPUT
