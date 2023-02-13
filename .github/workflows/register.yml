@@ -62,7 +62,7 @@ jobs:
             end;
             '
           while read -r line; do 
-            echo $line >> $GITHUB_OUTPUT
+            echo "$line" >> $GITHUB_OUTPUT
           done < temptemp.txt
         id: regist
     # Update OkRegistry first.
