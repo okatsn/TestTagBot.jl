@@ -9,7 +9,7 @@
 * Functions for checking the level of `Markdown.Header` (e.g., `islevel`).
 
 
-## v0.2.51
+## v0.2.52
 * v0.2.51's changelog
 * Further tests in `islevelleq`, `islevel` 
 * New function `stripheaderstring` that strip strings recursively from `text` and `code` field of `Markdown.___` objects.
