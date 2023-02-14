@@ -71,26 +71,17 @@ jobs:
               print(io, cglog);
             end;
           '
-          function define_dynamic_variables() {
-            i=0
-            while read -r line; do
-              key="text_$i"
-              declare -g "$key"="$line" >> GITHUB_OUTPUT
-              (( i++ ))
-            done < temptemp.txt
-          }
-          define_dynamic_variables
-#          echo "version=$(julia --project=@. -e '
-#            Pkg.add("TOML");
-#            using TOML;
-#            ver = try;
-#              d = TOML.parsefile("../TEMP/Project.toml");
-#              d["version"];
-#            catch e;
-#              "Version number not available";
-#            end;
-#            print(ver);``
-#          ')" >> $GITHUB_OUTPUT
+          echo "version=$(julia --project=@. -e '
+            Pkg.add("TOML");
+            using TOML;
+            ver = try;
+              d = TOML.parsefile("../TEMP/Project.toml");
+              d["version"];
+            catch e;
+              "Version number not available";
+            end;
+            print(ver);
+          ')" >> $GITHUB_OUTPUT
         id: regist
     # KEYNOTE:
     # - For GITHUB_OUTPUT, see: https://stackoverflow.com/questions/59191913/how-do-i-get-the-output-of-a-specific-step-in-github-actions
