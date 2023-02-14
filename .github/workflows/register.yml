@@ -58,7 +58,7 @@ jobs:
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
             include("add_local_pkg_to_registry.jl");
             '
-          julia --project=@. -e '
+          echo "text=$(julia --project=@. -e '
             using Pkg;
             Pkg.add("OkMD");
             using OkMD;
@@ -67,11 +67,10 @@ jobs:
             catch e;
               "changelog.md not available";
             end;
-            open("temptemp.txt", "w") do io;
-              print(io, cglog);
-            end;
-          '
+            print(replace(cglog, r"\n" => "\\n"));
+          ')"  >> $GITHUB_OUTPUT
           echo "version=$(julia --project=@. -e '
+            using Pkg;
             Pkg.add("TOML");
             using TOML;
             ver = try;
