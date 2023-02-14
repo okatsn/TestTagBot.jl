@@ -44,29 +44,41 @@ jobs:
           repository: okatsn/OkRegistry
           path: OkRegistry
           token: ${{ secrets.ACCESS_OKREGISTRY }}
-    # actions/checkout clones repo
-      - run: |
-          cd OkRegistry
-          git config --local user.email "action@github.com"
-          git config --local user.name "github-actions"
-          echo -E text=$(julia --project=@. -e '
-            using Pkg;
-            Pkg.instantiate();
-            Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
-            include("add_local_pkg_to_registry.jl");
-            Pkg.add("OkMD");
-            using OkMD;
-            cglog = try OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false)); catch e; "changelog.md not available" end;
-            show(cglog);
-            ') >> $GITHUB_OUTPUT
-        id: regist
-    # KEYNOTE:
-    # - For GITHUB_OUTPUT: https://stackoverflow.com/questions/59191913/how-do-i-get-the-output-of-a-specific-step-in-github-actions
-    # - text in echo "text=$line" is dummy, but required in github actions: https://stackoverflow.com/questions/74137120/how-to-fix-or-avoid-error-unable-to-process-file-command-output-successfully
     # Update OkRegistry first.
     # 1. Current path is critical. Please refer to "add_local_pkg_to_registry.jl" in OkRegistry.
     # 2. `git config` is required, and has to be done in repo OkRegistry (cd OkRegistry must precede)
     # 3. Personal registry is add per julia install; that is, OkRegistry should be added before `Pkg.instantiate()`
+      - run: |
+          cd OkRegistry
+          git config --local user.email "action@github.com"
+          git config --local user.name "github-actions"
+          julia --project=@. -e '
+            using Pkg;
+            Pkg.instantiate();
+            Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
+            include("add_local_pkg_to_registry.jl");
+            '
+          julia --project=@. -e '
+            Pkg.add("OkMD");
+            using OkMD;
+            cglog = try;
+              OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false));
+            catch e;
+              "changelog.md not available";
+            end;
+            open("temptemp.txt", "w") do io;
+              print(io, cglog);
+            end;
+          '
+          while read -r line; do
+            echo "text=$line" >> $GITHUB_OUTPUT
+          done < temptemp.txt
+        id: regist
+    # KEYNOTE:
+    # - For GITHUB_OUTPUT, see: https://stackoverflow.com/questions/59191913/how-do-i-get-the-output-of-a-specific-step-in-github-actions
+    # - For multi-line output, see https://trstringer.com/github-actions-multiline-strings/
+    # - `text` in echo "text=$line" is dummy, but required in github actions: https://stackoverflow.com/questions/74137120/how-to-fix-or-avoid-error-unable-to-process-file-command-output-successfully
+
       - name: Trigger next workflow  # You may alternatively use https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
         if: success() # https://docs.github.com/en/actions/learn-github-actions/expressions#success
         # && github.event_name == 'push' # KEYNOTE: must have this condition if `github.event.commits` is used in the followings. `github.event.commits` is only available in [push webhook payload](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#push).
