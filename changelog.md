@@ -6,3 +6,6 @@
 
 ## v0.2.68
   - Don't use `@`?
+
+## v0.2.69
+  - Don't use "double quote"?
