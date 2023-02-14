@@ -13,6 +13,10 @@ on:
       - created
   workflow_dispatch:
 
+env:
+  # It seems to be redundant to define them first.
+  CHANGELOG_MESSAGE: 'CHANGELOG_MESSAGE not available'
+  JULIA_VERSION: ' '
 
 permissions:
   actions: read
@@ -83,9 +87,11 @@ jobs:
           ')" >> $GITHUB_OUTPUT
         id: regist
     # KEYNOTE:
-    # - For GITHUB_OUTPUT, see: https://stackoverflow.com/questions/59191913/how-do-i-get-the-output-of-a-specific-step-in-github-actions
+    # - If you echo variable of the same name to GITHUB_OUTPUT, the former will be overwrite by the latter. To preserve all, the variable name (e.g., `text` in echo "text=$line") must be different. See https://stackoverflow.com/questions/74137120/how-to-fix-or-avoid-error-unable-to-process-file-command-output-successfully
+    # - For GITHUB_OUTPUT, see: https://stackoverflow.com/questions/59191913/how-do-i-get-the-output-of-a-specific-step-in-github-actions and https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
     # - For multi-line output, see https://trstringer.com/github-actions-multiline-strings/
-    # - `text` in echo "text=$line" is dummy, but required in github actions: https://stackoverflow.com/questions/74137120/how-to-fix-or-avoid-error-unable-to-process-file-command-output-successfully
+    # - Declare dynamic variables (not used in this script) https://dev.to/a1ex/tricks-of-declaring-dynamic-variables-in-bash-15b9
+    # - How to override an environment variable in Github Actions? https://stackoverflow.com/questions/66687561/how-to-override-an-environment-variable-in-github-actions
 
       - name: Trigger next workflow  # You may alternatively use https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idneeds
         if: success() # https://docs.github.com/en/actions/learn-github-actions/expressions#success
@@ -93,12 +99,13 @@ jobs:
         # if: success() # Use this condition instead if `github.event.commits` is not applied herein after AND you want trigger-tagbot dispatch workflows `on` events other that `push`.
         env:
           CHANGELOG_MESSAGE: ${{ join(steps.regist.outputs.*, '\n') }}
+          JULIA_VERSION: ${{ steps.regist.outputs.version }}
         uses: peter-evans/repository-dispatch@v2 # See https://github.com/peter-evans/repository-dispatch
         with:
           repository: ${{ github.repository }}
           event-type: trigger-tagbot
           token: ${{ secrets.GITHUB_TOKEN }} # default is GITHUB_TOKEN
-          client-payload: '{"logfile_msg": "${{ env.CHANGELOG_MESSAGE }}" }'
+          client-payload: '{"logfile_msg": "${{ env.CHANGELOG_MESSAGE }}", "version": "${{ env.JULIA_VERSION }}" }'
           # Delete this client-payload line and `client_payload` lines in `TagBot.yml` if you don't want commit message appears.
           # Push everything else before you push `Project.toml` with version number raised and commit it solely with commit message that will also appear as part of the release notes.
           # Also see OkPkgTemplates.PLUGIN_REGISTER() for explanation.

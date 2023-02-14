@@ -47,7 +47,7 @@ jobs:
             {% endif %}
 
           registry: okatsn/OkRegistry
-  TagBotOriginal:
+  TagBotNoChangelog: # KEYNOTE: Manually run this to tag previous versions
     if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
     runs-on: ubuntu-latest
     steps:
