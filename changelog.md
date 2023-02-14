@@ -9,3 +9,7 @@
 
 ## v0.2.69
   - Don't use "double quote"?
+
+
+## v0.2.70
+  - Can I escape "double quote"?

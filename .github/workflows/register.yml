@@ -64,14 +64,14 @@ jobs:
             '
           echo "text=$(julia --project=@. -e '
             using Pkg;
-            Pkg.add("OkMD");
-            using OkMD;
+            Pkg.add("OkMD","OkExpression");
+            using OkMD, OkExpression;
             cglog = try;
               OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false));
             catch e;
               "changelog.md not available";
             end;
-            print(replace(cglog, r"\n" => "\\n"));
+            print_raw(cglog);
           ')"  >> $GITHUB_OUTPUT
           echo "version=$(julia --project=@. -e '
             using Pkg;
