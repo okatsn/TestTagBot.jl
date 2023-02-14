@@ -9,7 +9,7 @@
 * Functions for checking the level of `Markdown.Header` (e.g., `islevel`).
 
 
-## v0.2.62
+## v0.2.63
 * Further tests in `islevelleq`, `islevel` 
 * New function `stripheaderstring` that strip strings recursively from `text` and `code` field of `Markdown.___` objects.
 * New function `read_section` that reads a target section from a `.md` file.
