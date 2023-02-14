@@ -59,6 +59,7 @@ jobs:
             include("add_local_pkg_to_registry.jl");
             '
           julia --project=@. -e '
+            using Pkg;
             Pkg.add("OkMD");
             using OkMD;
             cglog = try;
