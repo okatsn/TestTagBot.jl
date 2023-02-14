@@ -49,14 +49,14 @@ jobs:
           cd OkRegistry
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
-          echo -e text=$(julia --project=@. -e '
+          echo -E text=$(julia --project=@. -e '
             using Pkg;
             Pkg.instantiate();
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
             include("add_local_pkg_to_registry.jl");
             Pkg.add("OkMD");
             using OkMD;
-            cglog = OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false));
+            cglog = try OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false)); catch e; "changelog.md not available" end;
             print(cglog);
             ') >> $GITHUB_OUTPUT
         id: regist
