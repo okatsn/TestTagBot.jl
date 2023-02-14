@@ -26,7 +26,7 @@ jobs:
           ssh: ${{ secrets.DOCUMENTER_KEY }}
           changelog: |
             ## {{ package }} {{ version }}
-            ${{ github.event.client_payload.commit_msg }}
+            ${{ github.event.client_payload.logfile_msg }}
             {% if previous_release %}
             [Diff since {{ previous_release }}]({{ compare_url }})
             {% endif %}
