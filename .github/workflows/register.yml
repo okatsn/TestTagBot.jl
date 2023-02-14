@@ -64,7 +64,7 @@ jobs:
             '
           echo "text=$(julia --project=@. -e '
             using Pkg;
-            Pkg.add("OkMD","OkExpression");
+            Pkg.add(["OkMD","OkExpression"]);
             using OkMD, OkExpression;
             cglog = try;
               OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false));
