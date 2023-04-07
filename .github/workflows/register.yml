@@ -59,6 +59,7 @@ jobs:
           git config --local user.name "github-actions"
           julia --project=@. -e '
             using Pkg;
+            Pkg.Registry.status()
             Pkg.instantiate();
             using OkRegistrator;
             okciregister()
