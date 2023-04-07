@@ -40,22 +40,12 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: 1.8.5
-      - run: |
-          julia --project=@. -e '
-            using Pkg;
-            Pkg.Registry.status()
-            '
+      - uses: julia-actions/cache@v1
       - uses: okatsn/add-registry@v1
-      - run: |
-          julia --project=@. -e '
-            using Pkg;
-            Pkg.Registry.status()
-            error("lalalal")
-            '
-      - uses: actions/checkout@v3 # see https://github.com/actions/checkout
+      - uses: actions/checkout@v3
         with:
           path: TEMP
-      - uses: actions/checkout@v3 # see https://github.com/actions/checkout
+      - uses: actions/checkout@v3
         with:
           repository: okatsn/OkRegistry
           path: OkRegistry
@@ -70,7 +60,6 @@ jobs:
           git config --local user.name "github-actions"
           julia --project=@. -e '
             using Pkg;
-            Pkg.Registry.status()
             Pkg.instantiate();
             using OkRegistrator;
             okciregister()
