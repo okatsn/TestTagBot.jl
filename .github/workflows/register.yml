@@ -59,6 +59,8 @@ jobs:
           git config --local user.name "github-actions"
           julia --project=@. -e '
             using Pkg;
+            Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
+            Pkg.Registry.add(RegistrySpec(url = "https://github.com/JuliaRegistries/General.git"));
             Pkg.instantiate();
             using OkRegistrator;
             okciregister()
