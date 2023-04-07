@@ -40,6 +40,12 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: 1.8.5
+      - run: |
+          julia --project=@. -e '
+            using Pkg;
+            Pkg.resolve();
+            Pkg.instantiate();
+            '
       - uses: okatsn/add-registry@v1
       - uses: actions/checkout@v3 # see https://github.com/actions/checkout
         with:
@@ -58,8 +64,8 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
           julia --project=@. -e '
-            using Pkg;
-            Pkg.Registry.status() 
+            using OkRegistrator;
+            okciregister()
             '
           cd ../TEMP
           echo "text=$(julia --project=@. -e '
