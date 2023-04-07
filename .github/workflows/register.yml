@@ -58,8 +58,8 @@ jobs:
           git config --local user.name "github-actions"
           julia --project=@. -e '
             using Pkg;
-            Pkg.instantiate();
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
+            Pkg.instantiate();
             include("add_local_pkg_to_registry.jl");
             '
           echo "text=$(julia --project=@. -e '
