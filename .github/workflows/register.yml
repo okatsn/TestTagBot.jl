@@ -40,7 +40,18 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: 1.8.5
+      - run: |
+          julia --project=@. -e '
+            using Pkg;
+            Pkg.Registry.status()
+            '
       - uses: okatsn/add-registry@v1
+      - run: |
+          julia --project=@. -e '
+            using Pkg;
+            Pkg.Registry.status()
+            error("lalalal")
+            '
       - uses: actions/checkout@v3 # see https://github.com/actions/checkout
         with:
           path: TEMP
