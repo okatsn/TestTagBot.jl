@@ -40,6 +40,7 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: 1.8.5
+      - uses: okatsn/add-registry@v1
       - uses: actions/checkout@v3 # see https://github.com/actions/checkout
         with:
           path: TEMP
@@ -59,15 +60,16 @@ jobs:
           julia --project=@. -e '
             using Pkg;
             Pkg.instantiate();
-            Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
-            include("add_local_pkg_to_registry.jl");
+            using OkRegistrator;
+            okciregister()
             '
+          cd ../TEMP
           echo "text=$(julia --project=@. -e '
             using Pkg;
             Pkg.add([Pkg.PackageSpec(;name="OkExpressions", version="0.1.5"), Pkg.PackageSpec(;name="OkMD", version="0.2.2")]);
             using OkMD, OkExpressions;
             cglog = try;
-              OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false));
+              OkMD.plain_string(OkMD.get_changelog("Project.toml", "changelog.md", 2; with_header=false));
             catch e;
               "changelog.md not available";
             end;
@@ -78,7 +80,7 @@ jobs:
             Pkg.add("TOML");
             using TOML;
             ver = try;
-              d = TOML.parsefile("../TEMP/Project.toml");
+              d = TOML.parsefile("Project.toml");
               d["version"];
             catch e;
               "Version number not available";
