@@ -60,7 +60,8 @@ jobs:
           julia --project=@. -e '
             using Pkg;
             Pkg.instantiate();
-            include("add_local_pkg_to_registry.jl");
+            using OkRegistrator;
+            okciregister()
             '
           cd ../TEMP
           echo "text=$(julia --project=@. -e '
