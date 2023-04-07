@@ -59,10 +59,7 @@ jobs:
           git config --local user.name "github-actions"
           julia --project=@. -e '
             using Pkg;
-            Pkg.resolve();
-            Pkg.instantiate();
-            using OkRegistrator;
-            okciregister()
+            Pkg.Registry.status() 
             '
           cd ../TEMP
           echo "text=$(julia --project=@. -e '
