@@ -40,13 +40,6 @@ jobs:
       - uses: julia-actions/setup-julia@v1
         with:
           version: 1.8.5
-      - run: |
-          julia --project=@. -e '
-            using Pkg;
-            Pkg.resolve();
-            Pkg.instantiate();
-            '
-      - uses: okatsn/add-registry@v1
       - uses: actions/checkout@v3 # see https://github.com/actions/checkout
         with:
           path: TEMP
@@ -55,6 +48,7 @@ jobs:
           repository: okatsn/OkRegistry
           path: OkRegistry
           token: ${{ secrets.ACCESS_OKREGISTRY }}
+      - uses: okatsn/add-registry@v1
     # Update OkRegistry first.
     # 1. Current path is critical. Please refer to "add_local_pkg_to_registry.jl" in OkRegistry.
     # 2. `git config` is required, and has to be done in repo OkRegistry (cd OkRegistry must precede)
@@ -64,6 +58,8 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "github-actions"
           julia --project=@. -e '
+            using Pkg;
+            Pkg.instantiate();
             using OkRegistrator;
             okciregister()
             '
