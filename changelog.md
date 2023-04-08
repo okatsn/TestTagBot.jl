@@ -17,5 +17,5 @@
 ## v0.3.1
   If you see this message, get-changelog is successful
 
-## v0.3.6
-You should not see "Registry succesfully added" and see this messgage.
+## v0.3.7
+  If you see this message, get-changelog is successful
