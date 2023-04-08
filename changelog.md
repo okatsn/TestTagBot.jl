@@ -17,5 +17,5 @@
 ## v0.3.1
   If you see this message, get-changelog is successful
 
-## v0.3.7
+## v0.3.8
   If you see this message, get-changelog is successful
