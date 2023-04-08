@@ -53,6 +53,7 @@ jobs:
     # 1. Current path is critical. Please refer to "add_local_pkg_to_registry.jl" in OkRegistry.
     # 2. `git config` is required, and has to be done in repo OkRegistry (cd OkRegistry must precede)
     # 3. Personal registry is add per julia install; that is, OkRegistry should be added before `Pkg.instantiate()`
+    # 4. The empty General registry issue is solved after okatsn/add-registry@v2.0.1; the following code runs only when okatsn/add-registry@v2.0.1 (or later) is applied
       - run: |
           cd OkRegistry
           git config --local user.email "action@github.com"
@@ -63,30 +64,8 @@ jobs:
             using OkRegistrator;
             okciregister()
             '
-          cd ../TEMP
-          echo "text=$(julia --project=@. -e '
-            using Pkg;
-            Pkg.add([Pkg.PackageSpec(;name="OkExpressions", version="0.1.5"), Pkg.PackageSpec(;name="OkMD", version="0.2.2")]);
-            using OkMD, OkExpressions;
-            cglog = try;
-              OkMD.plain_string(OkMD.get_changelog("Project.toml", "changelog.md", 2; with_header=false));
-            catch e;
-              "changelog.md not available";
-            end;
-            print_raw(cglog);
-          ')"  >> $GITHUB_OUTPUT
-          echo "version=$(julia --project=@. -e '
-            using Pkg;
-            Pkg.add("TOML");
-            using TOML;
-            ver = try;
-              d = TOML.parsefile("Project.toml");
-              d["version"];
-            catch e;
-              "Version number not available";
-            end;
-            print(ver);
-          ')" >> $GITHUB_OUTPUT
+          cd ..
+      - uses: okatsn/get-changelog@v0.0.1
         id: regist
     # KEYNOTE:
     # - If you echo variable of the same name to GITHUB_OUTPUT, the former will be overwrite by the latter. To preserve all, the variable name (e.g., `text` in echo "text=$line") must be different. See https://stackoverflow.com/questions/74137120/how-to-fix-or-avoid-error-unable-to-process-file-command-output-successfully
