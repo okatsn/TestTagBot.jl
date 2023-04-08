@@ -13,3 +13,6 @@
 
 ## v0.2.73
   - Can I escape "double quote"?
+
+## v0.3.1
+  If you see this message, get-changelog is successful
