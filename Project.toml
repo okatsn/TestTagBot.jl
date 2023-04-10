@@ -10,6 +10,7 @@ DrWatson = "634d3b9d-ee7a-5ddf-bec9-22491ea816e1"
 PkgDev = "149e707d-584d-56d3-88ec-740c18e106ff"
 
 [compat]
+DrWatson = "2"
 PkgDev = "1.7.2"
 julia = "1.6"
 
